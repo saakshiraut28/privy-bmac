@@ -12,9 +12,8 @@ import { useAccount, useReadContract, useWriteContract } from "wagmi";
 const CONTRACT_ADDRESS = "0x102fFED303851eeD8185E3EA8D291820009CfD3e";
 
 export default function MessageApp() {
-  const { login, logout, authenticated, ready } = usePrivy();
+  const { login, logout, authenticated, ready, user } = usePrivy();
   const { isConnected } = useAccount();
-
   const { writeContract, isPending, isSuccess, reset } = useWriteContract();
 
   const { data: allMessages } = useReadContract({
@@ -61,6 +60,19 @@ export default function MessageApp() {
     }
   };
 
+  useEffect(() => {
+    if (authenticated && user) {
+      const hasEmbeddedWallet = !!user.linkedAccounts.find(
+        (account) =>
+          account.type === "wallet" &&
+          account.walletClientType === "privy" &&
+          account.chainType === "ethereum"
+      );
+      console.log("Has Embedded Wallet ", hasEmbeddedWallet);
+      console.log("Authenticated User: ", user);
+    }
+  }, [authenticated, user]); // This will run whenever authenticated or user changes
+
   const messages = (allMessages as Message[]) || [];
   const contractBalance = balance ? balance.toString() : "0";
 
@@ -68,10 +80,8 @@ export default function MessageApp() {
     <div className="min-h-screen bg-gray-100">
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-black">
-            Privy Message Storage
-          </h1>
-
+          <h1 className="text-3xl font-bold text-black">Buy Me a Coffee</h1>
+          {/* Any inbuilt component is not provided for connect button */}
           {ready && (
             <div>
               {authenticated ? (
@@ -98,7 +108,7 @@ export default function MessageApp() {
             {/* Message Form */}
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-xl text-black font-semibold mb-4">
-                Send Message
+                Send a Message with Coffee
               </h2>
               <form id="messageForm" onSubmit={handleSendMessage}>
                 <div className="mb-4">
@@ -111,12 +121,15 @@ export default function MessageApp() {
                   />
                 </div>
                 <div className="mb-4">
+                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                    Amount in ETH (any value welcome)
+                  </label>
                   <input
                     type="number"
                     name="ethAmount"
-                    min="0.01"
-                    step="0.01"
-                    defaultValue="0.01"
+                    min="0.000001"
+                    step="0.000001"
+                    defaultValue="0.001"
                     className="w-full p-2 border border-gray-300 rounded text-black"
                     required
                   />
@@ -126,7 +139,7 @@ export default function MessageApp() {
                   disabled={isPending}
                   className="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded disabled:bg-gray-500 disabled:opacity-50"
                 >
-                  {isPending ? "Sending..." : "Send Message"}
+                  {isPending ? "Sending..." : "Send Coffee"}
                 </button>
               </form>
             </div>
@@ -134,9 +147,9 @@ export default function MessageApp() {
             {/* Messages Display */}
             <div className="md:col-span-2 bg-white p-6 rounded-lg shadow-md text-black">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold">Stored Messages</h2>
+                <h2 className="text-xl font-semibold">Coffee Messages</h2>
                 <div className="text-gray-600">
-                  Contract Balance: {contractBalance} ETH
+                  Total Coffee Fund: {contractBalance} ETH
                 </div>
               </div>
               <div className="space-y-4 max-h-[500px] overflow-y-auto">
@@ -155,7 +168,7 @@ export default function MessageApp() {
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500">No messages yet</p>
+                  <p className="text-gray-500">No coffee messages yet</p>
                 )}
               </div>
             </div>
@@ -163,7 +176,7 @@ export default function MessageApp() {
         ) : (
           <div className="text-center py-12 bg-white rounded-lg shadow">
             <h2 className="text-xl text-gray-700 mb-4">
-              Connect your wallet to interact with the contract
+              Connect your wallet to buy me a coffee
             </h2>
           </div>
         )}

@@ -37,7 +37,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
             appearance: {
               theme: "light",
               accentColor: "#676FFF",
-              logo: "https://your-logo-url",
+              logo: "https://your-logo-url", // Add Brand logo
               landingHeader: "Welcome to Demo Privy App", // We can customize the title text also
               walletList: [
                 // Add the wallets you want to show.
