@@ -36,8 +36,15 @@ export default function Provider({ children }: { children: React.ReactNode }) {
               theme: "light",
               accentColor: "#676FFF",
               logo: "https://your-logo-url",
-              showWalletLoginFirst: true, // Shows the Wallet options followed by Social Login
               landingHeader: "Welcome to Demo Privy App", // We can customize the title text also
+              walletList: [
+                // Add the wallets you want to show.
+                "metamask",
+                "detected_ethereum_wallets",
+              ],
+              // Add the chains you want to support
+              walletChainType: "ethereum-only", // More options: 'solana-only' | 'ethereum-and-solana'
+              showWalletLoginFirst: true, // Shows the Wallet options followed by Social Login
             },
             // Create embedded wallets for users who don't have a wallet
             embeddedWallets: {
