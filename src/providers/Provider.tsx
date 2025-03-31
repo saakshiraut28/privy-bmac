@@ -28,7 +28,9 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <PrivyProvider
+          // Get this from the Privy Dashboard
           appId={projectId}
+          // Get this from the Privy Dashboard
           clientId={clientId}
           config={{
             // Customize Privy's appearance in your app
