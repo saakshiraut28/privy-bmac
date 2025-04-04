@@ -9,7 +9,7 @@ import { parseEther } from "viem";
 import { MessageStorageABI, type Message } from "../contract/abi";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 
-const CONTRACT_ADDRESS = "0x102fFED303851eeD8185E3EA8D291820009CfD3e";
+const CONTRACT_ADDRESS = "0x102fFED303851eeD8185E3EA8D291820009CfD3e"; // verified one: 0xeB36c6093fe7e3dFb12fdE86Fe35BFC03485ba1e
 
 export default function MessageApp() {
   const { login, logout, authenticated, ready, user } = usePrivy();
